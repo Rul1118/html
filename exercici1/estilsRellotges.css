@@ -1,0 +1,190 @@
+/* Aquest es el css de la pagina web */
+
+/* AJUSTOS PER TOTA LA PAGINA */
+
+img { /* Totes les imatges de la pagina web */
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/************************************ BODY **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+body { /* Ajustos que tindran tots els elements del body */
+    background-color: black;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/************************************ HEADER **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+div.banner { /* Banner de la part superior */
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin: 0 auto;
+    padding: auto;
+}
+
+header h1 { /* Nom de la botiga */
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    color: silver;
+    text-align: center;
+    top: 5%;
+}
+
+header h2 { /* Slogan de la botiga */
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    color: silver;
+    text-align: center;
+    top: 15%;
+}
+
+#menu-principal { /* Barra de menu */
+    background-color: black;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+#menu-principal li {
+    display: inline-block;
+    margin: 10px;
+}
+
+#menu-principal a {
+    text-decoration: none;
+    color: white;
+}
+
+#menu-principal a:hover {
+    color: goldenrod;
+}
+
+div.banner3 { /* Banner sota el menu */
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/************************************ SECTION *********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+article.rellotges { /* Caixes dels Articles */
+    background-color: white;
+    color: black;
+    padding: 20px;
+    justify-items: center;  /* <--*/
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 3px 3px 10px goldenrod;
+    margin-top: 2%;
+    display: inline-block;
+    width: 25%; /*30%*/
+    margin: 10px;    
+}
+
+.imatgerellotges { /* Imatges Dels Articles */
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/************************************* ASIDE **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+aside { /* Part del codi dins del body que conte el formulari i un banner */
+    margin-top: 20px;
+    color: white;
+    background-color: black;
+    border: 1px solid silver;
+    padding: auto;
+    width: 95%;
+    text-align: justify;
+}
+
+aside input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+aside textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+aside select {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+div.banner4 { /* Banner de Sant Valenti */
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    padding: auto;
+}
+
+form { /* Formulari */
+    margin: 20px;
+    width: 90%;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* --------------------------------------------------------------------------------------- */
+/************************************ FOOTER **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+footer { /* Footer */
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    position: relative;
+    width: 100%;
+}
+
+.xarxessocials { /* Logos de les aplicacions de xarxes socials */
+    margin-top: 10px;
+  }
+  
+.xarxessocials a {
+    margin: 0 10px;
+    display: inline-block;
+  }
+  
+.xarxessocials img {
+    width: 30px;
+    height: 30px;
+  }
