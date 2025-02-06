@@ -1,0 +1,195 @@
+/* Aquest es el css de la pagina web */
+
+/* --------------------------------------------------------------------------------------- */
+/************************************** BODY **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+body { /* Ajustos que tindran tots els elements del body */
+  background-color: black;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+#banner img{ /* Ajustos dels banners de la pàgina */
+  width: 100%;
+}
+
+#banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ HEADER *********************************************/
+/* ------------------------------------------------------------------------------------ */
+
+/* Aquesta part del css conté els estils de la barra del menu */
+
+#menu-principal { /* Barra de menu */
+  background-color: black;
+  color: black;
+  text-align: center;
+  width: 100%;
+}
+
+#menu-principal li {
+  display: inline-block;
+  margin: 20px;
+}
+
+#menu-principal a {
+  text-decoration: none;
+  color: white;
+}
+
+#menu-principal a:hover {
+  color: red;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ SECTION 1 ******************************************/
+/* ------------------------------------------------------------------------------------ */
+
+/* Aquesta part del css conté els estils de les imatges dels membres del grup */
+
+.fotosgrup { /* Imatges del grup */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* Espai entre les imatges */
+  width: 100%;
+}
+.fotospersones {
+  text-align: center;
+}
+.fotospersones img {
+  width: 150px;
+  height: 250px;
+  border-radius: 10px;
+  margin: 15px;
+}
+.fotospersones p { /* Peu de les imatges */
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ SECTION 2 ******************************************/
+/* ------------------------------------------------------------------------------------ */
+
+/* Aquesta part del css conté els estils de les llistes amb els noms del membres del grup
+i els seus instruments */
+
+.llistes {
+  display: flex;
+  justify-content: center; /* Centra las listas */
+  gap: 50px; /* Espacio entre listas */
+  color: white;
+  text-align: center;
+
+}
+.lista {
+  border: 1px solid white;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ SECTION 3 ******************************************/
+/* ------------------------------------------------------------------------------------ */
+
+/* Aquesta part del css conté els estils del banner de sobre la taula amb els albums, la 
+taula amb els albums les imatges dels albums */
+
+table { /* Taula amb els albums */
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px auto;
+  height: auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: grey;
+}
+
+td, th {
+  border: 2px solid black;
+  text-align: center;
+  padding: 4px;
+}
+
+tr:nth-child(even) {
+  background-color: whitesmoke;
+}
+
+.fotosalbums { /* 3 fotos dels albums a sota de la taula */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+}
+
+.fotosalbums img {
+  width: 30%;
+  border-radius: 10px;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ SECTION 4 ******************************************/
+/* ------------------------------------------------------------------------------------ */
+
+/* Aquesta part del css conté els estils dels videos*/
+
+.videos { /* 8 videos del grup */
+  display: flex;
+  flex-wrap: wrap; /* Fa que els videos passin a la seguent linia si no hi ha espai */
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.video {
+  flex: 1 1 30%;  /* Fa que cada video ocupi el 30% de la pantalla */
+  max-width: 300px;  /* Limita el tamany dels videos */
+}
+
+iframe {
+  width: 100%;
+  height: 200px;
+}
+
+/* ------------------------------------------------------------------------------------- */
+/************************************ FOOTER ********************************************/
+/* ----------------------------------------------------------------------------------- */
+
+/* Aquesta part del css conté els estils de les xarxes socials */
+
+footer { /* Footer */
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.xarxessocials { /* Logos de les aplicacions de xarxes socials */
+    margin-top: 10px;
+  }
+  
+.xarxessocials a {
+    margin: 10px;
+    display: inline-block;
+  }
+  
+.xarxessocials img {
+    width: 30px;
+    height: 30px;
+  }
