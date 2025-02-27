@@ -1,0 +1,7 @@
+Para subir una página web al netlify hay que hacer los siguientes pasos:
+
+1. cd /RutaDeLaCarpetaDondeEstaLaPaginaWeb
+2. git status
+3. git add -A
+4. git commit -m "ComentarioEntreComillas"
+5. git push

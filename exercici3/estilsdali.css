@@ -1,0 +1,80 @@
+/*  Aquest es el css de la pagina web */
+
+/* --------------------------------------------------------------------------------------- */
+/************************************** BODY **********************************************/
+/* ------------------------------------------------------------------------------------- */
+
+body {
+  font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  background-color: palegoldenrod;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+  
+#banner img {
+  width: 100%;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************ HEADER *********************************************/
+/* ------------------------------------------------------------------------------------ */
+
+p {
+  text-align: justify;
+  background-color: papayawhip;
+  margin: 10px;
+  border: 3px solid black;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+h2 {
+  text-align: center;
+  color: black;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/************************************** SECTION ******************************************/
+/* ------------------------------------------------------------------------------------ */
+
+.grid {
+  display: grid;
+  gap: 10px;
+  background-color: peachpuff;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-areas: 
+  "img1 img2 img3 img4"
+  "img6 img6 img7 img7"
+  "img5 img10 img8 img9";
+}
+
+.grid div {
+  text-align: center;
+}
+
+.grid img {
+  width: 100%;
+  height: auto;
+  margin: 5px auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.grid img:hover {
+  transform: scale(1.4);
+}
+
+.imatge1 {grid-area: img1}
+.imatge2 {grid-area: img2}
+.imatge3 {grid-area: img3}
+.imatge4 {grid-area: img4}
+.imatge5 {grid-area: img5}
+.imatge6 {grid-area: img6}
+.imatge7 {grid-area: img7}
+.imatge8 {grid-area: img8}
+.imatge9 {grid-area: img9}
+.imatge10 {grid-area: img10}
