@@ -13,7 +13,7 @@ body {
   padding: 0;
   width: 100%;
 }
-  
+
 #banner img {
   width: 100%;
   margin: 0;
@@ -30,6 +30,7 @@ p {
   border: 3px solid black;
   border-radius: 3px;
   padding: 10px;
+  align-items: stretch;
 }
 
 h2 {

@@ -1,0 +1,180 @@
+/* Aquest es el css de la pagina web */
+
+/* ------------------------------------------------------------------------------------- */
+/************************************ HEADER ********************************************/
+/* ----------------------------------------------------------------------------------- */
+
+header {
+    background-color: #5c755e;
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+}
+
+h1{
+    text-align: center;
+    background-color: #5c755e;
+}
+
+/* ------------------------------------------------------------------------------------- */
+/************************************** BODY ********************************************/
+/* ----------------------------------------------------------------------------------- */
+
+body { /* Ajustos Generals del Body */
+    width: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: papayawhip;
+}
+
+/********************************** SECTION 1 ****************************************/
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    padding: 2%;
+}
+
+.grid img {
+    width: 95%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.section1 {
+    column-count: 2;
+    column-gap: 15px;
+    text-align: justify;
+    padding: 2%;
+    background-color: papayawhip;
+}
+
+.video360 {
+    padding: 2%;
+}
+
+/********************************** SECTION 2 ****************************************/
+
+.section2 {
+    text-align: justify;
+    padding: 2%;
+    background-color: papayawhip;
+}
+
+.img360 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+}
+iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 10px;
+}
+
+/********************************** SECTION 3 ****************************************/
+
+.section3 {
+    text-align: justify;
+    padding: 2%;
+    background-color: papayawhip;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    padding: 2%;
+}
+.mapa, .mapagoogle {
+    width: 90%;
+}
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+iframe {
+    width: 100%;
+    height: 395px;
+    border-radius: 10px;
+}
+
+/* ------------------------------------------------------------------------------------- */
+/************************************ FOOTER ********************************************/
+/* ----------------------------------------------------------------------------------- */
+
+footer {
+    background-color: #5c755e;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+/* ------------------------------------------------------------------------------------- */
+/************************************ MEDIA QUERIES *************************************/
+/* ----------------------------------------------------------------------------------- */
+
+/* Mòbils petits (menys de 576px) */
+@media (max-width: 575px) {
+    header {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section1 {
+        column-count: 1;
+        padding: 5%;
+    }
+
+    .img360 {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .mapa,
+    .mapagoogle {
+        width: 100%;
+    }
+}
+
+/* Tablets (de 576px a 992px) */
+@media (min-width: 576px) and (max-width: 992px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section1 {
+        column-count: 1;
+    }
+
+    .img360 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Pantalles grans (més de 992px) */
+@media (min-width: 993px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
