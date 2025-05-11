@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Whac-A-Mole Simple</title>
+  <link rel="stylesheet" href="wachamole.css">
+</head>
+<body>
+
+  <h1>Wach-A-Mole</h1>
+
+  <!-- Grid per fer els forats que volguem -->
+  <div id="grid">
+    <img id="m0" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(0)">
+    <img id="m1" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(1)">
+    <img id="m2" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(2)">
+    <img id="m3" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(3)">
+    <img id="m4" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(4)">
+    <img id="m5" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(5)">
+    <img id="m6" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(6)">
+    <img id="m7" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(7)">
+    <img id="m8" class="mole" src="imatges/Talp/topoNo.jpg" onclick="clicar(8)">
+  </div>
+
+   <!-- Mostrem la puntuació de l'usuari -->
+  <div id="score">Puntuació: 0</div>
+
+  <script>
+    // Inicialitzem la puntuació
+    var puntuacio = 0;
+    // Inicialitzem la variable per al talp actiu (inicialment cap talp està actiu)
+    var talpActiu = -1;
+    var so = new Audio("videos/boing.mp3");
+
+     // Funció que es crida quan fem clic sobre un talp
+    function clicar(posicio) {
+       // Agafem la imatge corresponent al talp clicat utilitzant l'ID "m" + la posició
+      var imatge = document.getElementById("m" + posicio);
+
+      // Comprovem si la imatge mostra el talp fora (topoSi.jpg)
+      if (imatge.src.includes("imatges/Talp/topoSi.jpg")) {
+        // Si el talp està fora, sumem 10 punts
+        puntuacio += 10;
+          // Actualitzem la puntuació a la pàgina
+        document.getElementById("score").innerText = "Puntuació: " + puntuacio;
+        // Reproduïm el so
+        so.currentTime = 0;
+        so.play();
+      }
+
+      // Quan fem clic, canviem la imatge del talp a "topoPam.jpg" per mostrar que l'hem tocat
+      imatge.src = "imatges/Talp/topoPam.jpg";
+
+      // Tornem la imatge a "topoNo.jpg" (forat buit)
+      setTimeout(function () {
+        imatge.src = "imatges/Talp/topoNo.jpg";
+      }, 200);
+    }
+
+    // Funció que es crida cada segon
+    setInterval(function () {
+      // Amaguem tots els talps
+      for (var i = 0; i < 9; i++) {
+        document.getElementById("m" + i).src = "imatges/Talp/topoNo.jpg";
+      }
+
+      // Triem un talp aleatori (un número entre 0 i 8)
+      var aleatori = Math.floor(Math.random() * 9);
+      // Mostrem el talp en el forat aleatori seleccionat
+      document.getElementById("m" + aleatori).src = "imatges/Talp/topoSi.jpg";
+    }, 1000);
+  </script>
+
+</body>
+</html>

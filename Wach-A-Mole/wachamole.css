@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url("imatges/Wallpaper/wallpaper1.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: sans-serif;
+    text-align: center;
+    color: white;
+  }
+  
+  h1 {
+    color: black;
+  }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  .mole {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+  }
+  
+  #score {
+    margin-top: 20px;
+    font-size: 24px;
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
