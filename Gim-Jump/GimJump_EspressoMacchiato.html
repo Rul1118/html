@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gim-Jump</title>
+  <!-- Es carreguen les llibreries p5.js i ml5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ml5@0.12.2/dist/ml5.min.js"></script>
+  <style>
+    /* Estils bàsics per a la pàgina */
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    /* Estils per al cos de la pàgina */
+    body {
+      background-image: url('./imatges/wallpaper.png'); /* Fons amb imatge */
+      background-size: cover; /* Cobrir tota l'àrea */
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background-color: black; /* Color de fons de reserva */
+    }
+    /* Estil del contenidor on es mostra el vídeo i el canvas */
+    #video-container {
+      width: 850px;
+      height: 650px;
+      background-color: black;
+      border-radius: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      padding: 25px;
+    }
+    /* Estil per al títol principal */
+    #titulo {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 50px;
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    /* Importem la font "Press Start 2P" des de Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+  <!-- Títol de la pàgina -->
+  <h1 id="titulo">Espresso Macchiato</h1>
+  <!-- Contenidor on es mostrarà el vídeo i el canvas generat amb p5.js -->
+  <div id="video-container"></div>
+  
+  <script>
+    // Declaració de variables globals
+    let video;            // Captura de vídeo en temps real
+    let poseNet;          // Variable per al model PoseNet (detecció de posicions)
+    let poses = [];       // Array que contindrà les poses detectades
+    let timer = 60;       // Temporitzador de 60 segons
+    let timerRunning = false;  // Indicador per saber si el temporitzador està actiu
+    let score = 0;        // Puntuació inicial del jugador
+    let audio = new Audio('./audio/songEspresso.mp3'); // Membrea la música del joc
+    let gameStarted = false; // Estat del joc (iniciat o no)
+    
+    // Variables per emmagatzemar les imatges dels objectes que cauen
+    let fallImg, fallImg2;
+    
+    // Variables per als objectes que cauen dins del joc
+    let fallingObject1;
+    let fallingObject2;
+    
+    // Radi del botó d'inici (s'utilitza per comprovar la interacció del jugador)
+    const buttonRadius = 200; // Mida del botó d'inici
+    
+    // Funció preload:
+    // Carrega les imatges abans de començar el joc
+    function preload() {
+      // Carrega dues imatges que representen els objectes que cauen per pantalla
+      fallImg = loadImage('./imatges/tommy.png');
+      fallImg2 = loadImage('./imatges/cafe.png');
+    }
+    
+    // Funció setup:
+    // S'executa un cop al carregar la pàgina i inicialitza els elements del joc
+    function setup() {
+      // Creem un canvas de 800x600 píxels i l'afegim dins del contenidor 'video-container'
+      let canvas = createCanvas(800, 600);
+      canvas.parent('video-container');
+      
+      // Inicia la captura de vídeo i defineix callbacks per quan es carrega correctament
+      video = createCapture(VIDEO, () => {
+        console.log("La càmera s'ha carregat correctament.");
+      });
+      video.size(800, 600);
+      video.hide(); // Amagar la vídeo original, només utilitzem el canvas per mostrar-lo
+      video.elt.setAttribute("playsinline", "true"); // Permet la reproducció en línia (important en dispositius mòbils)
+      video.parent('video-container');
+      
+      // Inicialitza PoseNet amb el vídeo carregat i indica per consola quan està llest
+      poseNet = ml5.poseNet(video, () => console.log("PoseNet carregat!"));
+      // Assegura que, quan PoseNet detecti una postura, s'executi la funció gotPoses
+      poseNet.on('pose', gotPoses);
+    }
+    
+    // Funció que actualitza l'array 'poses' amb els resultats de la detecció de posicions
+    function gotPoses(results) {
+      poses = results;
+    }
+    
+    // Funció draw:
+    // S'executa en bucle per actualitzar el canvas
+    function draw() {
+      background(0); // Pinta el fons de negre
+      
+      // Dibuixar el vídeo en mode mirall per una millor experiència d'usuari
+      if (video.loadedmetadata) {
+        push();                // Guarda l'estat actual del canvas
+        translate(width, 0);   // Trasllada el canvas per invertir l'eix X
+        scale(-1, 1);          // Aplica la reflexió horitzontal
+        image(video, 0, 0, width, height); // Dibuixa el vídeo sobre el canvas
+        pop();                 // Restaura l'estat del canvas
+      } else {
+        console.log("Esperant que el vídeo es carregui...");
+      }
+      
+      // Si el joc encara no ha començat, dibuixar el botó d'inici (una el·lipse verda)
+      if (!gameStarted) {
+        let buttonX = width / 2;   // Coordenada X del centre del botó
+        let buttonY = height / 2;  // Coordenada Y del centre del botó
+        fill(0, 255, 0);           // Defineix el color verd
+        noStroke();
+        ellipse(buttonX, buttonY, buttonRadius * 2); // Dibuixa el botó d'inici
+        checkStartGame(buttonX, buttonY); // Verifica si el jugador interactua amb el botó
+      } else {
+        // Si el joc està en marxa, actualitza i mostra cada objecte que cau
+        if (fallingObject1) {
+          fallingObject1.update();   // Actualitza la posició del primer objecte
+          fallingObject1.display();  // Dibuixa el primer objecte sobre el canvas
+          checkCollision(fallingObject1); // Comprova si hi ha col·lisió amb aquest objecte
+        }
+        if (fallingObject2) {
+          fallingObject2.update();
+          fallingObject2.display();
+          checkCollision(fallingObject2);
+        }
+        // Mostra la puntuació i el temporitzador
+        displayScoreAndTimer();
+      }
+      
+      // Dibuixa els punts claus (keypoints) detectats pels canells i turmells
+      drawKeypoints();
+    }
+    
+    // Funció auxiliar per obtenir la coordenada X reflectida (per fer efecte mirall)
+    function getMirroredX(x) {
+      return width - x;
+    }
+    
+    // Funció que verifica si el jugador ha activat el botó d'inici
+    function checkStartGame(buttonX, buttonY) {
+      // Si hi ha almenys una postura detectada
+      if (poses.length > 0) {
+        let pose = poses[0].pose;
+        // Localitza les posicions del canell esquerre i dret
+        let leftWrist = pose.keypoints.find(kp => kp.part === 'leftWrist');
+        let rightWrist = pose.keypoints.find(kp => kp.part === 'rightWrist');
+        if (leftWrist && rightWrist) {
+          // Compta amb la coordenada X invertida perquè coincideixi amb el vídeo en mode mirall
+          let leftDist = dist(getMirroredX(leftWrist.position.x), leftWrist.position.y, buttonX, buttonY);
+          let rightDist = dist(getMirroredX(rightWrist.position.x), rightWrist.position.y, buttonX, buttonY);
+          // Si ambdós canells estan dins del radi del botó, iniciar el joc
+          if (leftDist < buttonRadius && rightDist < buttonRadius) {
+            gameStarted = true;
+            startGame();
+          }
+        }
+      }
+    }
+    
+    // Funció per iniciar el joc
+    function startGame() {
+      timerRunning = true;   // S'activa el temporitzador
+      audio.play();          // Es reprodueix la música de fons
+      // Es creen dos objectes que cauen utilitzant les imatges carregades
+      fallingObject1 = new FallingObject(fallImg);
+      fallingObject2 = new FallingObject(fallImg2);
+    }
+    
+    // Funció que mostra la puntuació i el temporitzador al canvas
+    function displayScoreAndTimer() {
+      fill(255, 0, 0);       // Defineix el color vermell per al text
+      textSize(32);          // Mida de la lletra
+      textAlign(CENTER, CENTER); // Alineació centrada del text
+      // Mostra el temps restant i la puntuació
+      text(`Temps: ${timer} - Puntuació: ${score}`, width / 2, 50);
+      
+      // Redueix el temporitzador cada segon (aproximadament cada 60 vots de frame)
+      if (frameCount % 60 === 0 && timer > 0) {
+        timer--;
+      }
+      
+      // Quan el temps arriba a zero, es finalitza el joc
+      if (timer === 0) {
+        endGame();
+      }
+    }
+    
+    // Classe per als objectes que cauen al joc
+    class FallingObject {
+      constructor(img) {
+        this.x = random(width);   // Posició X aleatòria dins del canvas
+        this.y = 0;               // Inicia a la part superior de la pantalla
+        this.speed = random(3, 7); // Velocitat de caiguda aleatòria
+        this.size = 100;          // Mida de l'objecte
+        this.image = img;         // Assigna la imatge corresponent
+      }
+      
+      // Mètode per actualitzar la posició de l'objecte
+      update() {
+        this.y += this.speed; // Incrementa la posició Y segons la velocitat
+        // Si l'objecte surt per sota del canvas, es reinicia a dalt i es dona una nova posició a l'eix X
+        if (this.y > height) {
+          this.y = 0;
+          this.x = random(width);
+        }
+      }
+      
+      // Mètode per dibuixar l'objecte al canvas
+      display() {
+        image(this.image, this.x, this.y, this.size, this.size);
+      }
+    }
+    
+    // Funció per comprovar si hi ha col·lisió entre un objecte i els punts claus (canells o turmells)
+    function checkCollision(obj) {
+      if (poses.length > 0) {
+        let pose = poses[0].pose;
+        // Recorre tots els punts claus de la postura
+        for (let keypoint of pose.keypoints) {
+          // Només es comprova si el punt té una precisió raonable i correspongui als canells o turmells
+          if (keypoint.score > 0.2 &&
+              (keypoint.part.includes('Wrist') || keypoint.part.includes('Ankle'))) {
+            // Calcular la distància entre el punt (reflexionat) i l'objecte
+            let d = dist(getMirroredX(keypoint.position.x), keypoint.position.y, obj.x, obj.y);
+            // Si la distància és inferior a la meitat de la mida de l'objecte es considera impacte
+            if (d < obj.size / 2) {
+              // Reinicia l'objecte i augmenta la puntuació
+              obj.y = 0;
+              obj.x = random(width);
+              score++;
+              break;
+            }
+          }
+        }
+      }
+    }
+    
+    // Funció per dibuixar sobre el canvas els punts claus dels canells i turmells detectats
+    function drawKeypoints() {
+      if (poses.length > 0) {
+        let pose = poses[0].pose;
+        // Per cada punt clau amb un nivell de confiança acceptable
+        for (let keypoint of pose.keypoints) {
+          if (keypoint.score > 0.2 &&
+              (keypoint.part.includes('Wrist') || keypoint.part.includes('Ankle'))) {
+            fill(255, 0, 0); // Color vermell per als punts claus
+            noStroke();
+            ellipse(getMirroredX(keypoint.position.x), keypoint.position.y, 12, 12);
+          }
+        }
+      }
+    }
+    
+    // Funció per finalitzar el joc
+    function endGame() {
+      timerRunning = false; // Atura el temporitzador
+      audio.pause();        // Atura la música
+      // Mostra un avís amb la puntuació final
+      alert(`Fi del joc! Puntuació: ${score}`);
+      gameStarted = false;  // Reestableix l'estat del joc
+      score = 0;            // Reincia la puntuació
+      timer = 60;           // Reestableix el temporitzador
+      fallingObject1 = null; // Elimina els objectes en moviment
+      fallingObject2 = null;
+    }
+  </script>
+</body>
+</html>
