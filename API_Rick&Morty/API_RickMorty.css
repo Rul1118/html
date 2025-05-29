@@ -1,0 +1,99 @@
+/* Resets: S'eliminen els marges i el padding per a tots els elements i 
+s'estableix el box-sizing en border-box per facilitar el càlcul d'amplades */
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Estils del body de la pàgina */
+      body {
+        font-family: 'Orbitron', sans-serif;
+        background: radial-gradient(ellipse at bottom, #1b2735, #090a0f); /* Fons amb una transició*/
+        color: #f0f0f0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* Contenidor central amb tot el contingut */
+      .container {
+        background: rgba(10, 10, 10, 0.8);
+        padding: 2rem;
+        border: 2px solid #00ff99; /* Neó verd */
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+      }
+
+      /* Títol principal */
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #00ff99;
+      }
+
+      /* Estils per a l'input */
+      input[type="text"] {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        background: #333;
+        color: #fff;
+        font-size: 1rem;
+      }
+
+      /* Estils del botó de cerca */
+      button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        background: #ff0080;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      /* Estils per al missatge "Carregant..." mentre s'espera la resposta */
+      #loading {
+        margin-bottom: 20px;
+        font-size: 1rem;
+        color: #00ff99;
+      }
+
+      /* Marges de la zona on es mostraran els resultats */
+      #result {
+        margin-top: 20px;
+      }
+
+      /* Estils per al contenidor dels resultats */
+      #result div {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 0, 128, 0.7);
+      }
+
+      /* Estils per a la imatge del personatge */
+      #result img {
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      /* Estils per al títol (nom del personatge) dins dels resultats */
+      #result h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      /* Estils per a les descripcions dels atributs del personatge */
+      #result p {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }

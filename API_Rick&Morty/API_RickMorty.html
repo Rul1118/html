@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="API_RickMorty.css">
+    <title>Rick and Morty</title>
+    <!-- Importem la font "Orbitron" (tema de la API) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet"/>
+  </head>
+  <body>
+    <!-- Contenidor principal -->
+    <div class="container">
+      <h1>Cerca un personatge de Rick and Morty</h1>
+      <!-- Input per escriure el nom del personatge -->
+      <input
+        type="text"
+        id="characterName"
+        placeholder="Nom del personatge"
+      />
+      <!-- Botó que crida a la funció" -->
+      <button onclick="cercaPersonatge()">Cercar</button>
+      <!-- Element per mostrar el missatge "Carregant..." mentre s'espera la resposta -->
+      <div id="loading" style="display: none;">Carregant...</div>
+      <!-- Element per mostrar els resultats de la cerca -->
+      <div id="result"></div>
+    </div>
+
+    <script>
+      // Funció que realiza la cerca del personatge a partir del nom escrit per l'usuari
+      function cercaPersonatge() {
+        // Obtenim els elements per mostrar resultats i el missatge de càrrega
+        var resultDiv = document.getElementById("result");
+        var loadingDiv = document.getElementById("loading");
+
+        // Esborrem qualsevol contingut anterior dels resultats
+        resultDiv.innerHTML = "";
+
+        // Mostrem el missatge de càrrega mentre es fa la petició a la API
+        loadingDiv.style.display = "block";
+        loadingDiv.textContent = "Carregant...";
+
+        // Obtenim el nom introduït per l'usuari i eliminem espais addicionals
+        var nom = document.getElementById("characterName").value.trim();
+        if (!nom) {
+          // Si no s'ha introduït cap nom, amaguem el missatge de càrrega i alertem l'usuari
+          loadingDiv.style.display = "none";
+          alert("Introdueix el nom d'un personatge.");
+          return;
+        }
+        // Construïm la URL de la petició a la API afegint el nom codificat per URL
+        var url =
+          "https://rickandmortyapi.com/api/character/?name=" +
+          encodeURIComponent(nom);
+
+        // Realitzem la petició amb fetch
+        fetch(url)
+          .then(function(response) {
+            // Si la resposta no és correcta, llençem un error
+            if (!response.ok) {
+              throw new Error("No s'ha trobat cap personatge amb aquest nom.");
+            }
+            // Converteix la resposta HTTP en un objecte JavaScript (JSON)
+            return response.json();
+          })
+          .then(function(data) {
+            // Un cop rebuda la resposta, amaguem el missatge de càrrega
+            loadingDiv.style.display = "none";
+            // Comprovem si la resposta conté resultats
+            if (data.results && data.results.length > 0) {
+              // Seleccionem el primer personatge del llistat
+              var character = data.results[0];
+              // Mostrem les dades del personatge: imatge, nom, espècie, gènere i origen
+              resultDiv.innerHTML = `
+                <div>
+                  <img src="${character.image}" alt="${character.name}" />
+                  <h2>${character.name}</h2>
+                  <p><strong>Espècie:</strong> ${character.species}</p>
+                  <p><strong>Gènere:</strong> ${character.gender}</p>
+                  <p><strong>Origen:</strong> ${character.origin.name}</p>
+                </div>
+              `;
+            } else {
+              // Si no s'ha trobat cap personatge, mostrem un missatge indicant l'error
+              resultDiv.textContent = "No s'ha trobat cap personatge.";
+            }
+          })
+          .catch(function(error) {
+            // En cas d'error s'amaga el missatge de càrrega i es mostra el missatge d'error
+            loadingDiv.style.display = "none";
+            resultDiv.textContent = error.message;
+          });
+      }
+    </script>
+  </body>
+</html>
